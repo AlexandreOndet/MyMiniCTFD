@@ -21,10 +21,8 @@ class Submission:
 class ValidSubmission(Submission):
     def __init__(self, user, challenge, timestamp=datetime.now()):
         super().__init__(user, challenge, timestamp)
-        # Additional logic specific to valid submissions
 
 
 class InvalidSubmission(Submission):
     def __init__(self, user, challenge, timestamp=datetime.now()):
         super().__init__(user, challenge, timestamp)
-        # Additional logic specific to invalid submissions
