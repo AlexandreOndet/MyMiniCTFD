@@ -1,14 +1,14 @@
 from typing import List
 
-from app.Solve import Solve
+from app.Submission import Submission
 
 
 class User:
     name: str
     score: int
-    solved: List[Solve]
+    submissions: List[Submission]
 
-    def __init__(self, name, score=0, solved=[]):
+    def __init__(self, name, score=0, submissions=[]):
         self.name = name
         self.score = score
-        self.solved = solved
+        self.submissions = submissions

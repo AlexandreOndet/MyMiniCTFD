@@ -11,3 +11,6 @@ class Challenge:
         self.category = category
         self.points = points
         self.flag = flag
+
+    def checkFlag(self, flag):
+        return flag == self.flag

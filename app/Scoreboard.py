@@ -1,11 +1,12 @@
 from typing import List
 
-from app.Solve import Solve
+from app.Submission import Submission
+from app.SubmissionCreator import SubmissionCreator
 from app.User import User
 
 
 class Scoreboard:
-    solves: List[Solve]
+    solves: List[Submission]
     users: List[User]
     instance = None
 
@@ -22,7 +23,14 @@ class Scoreboard:
             self.instance = Scoreboard()
         return self.instance
 
-    def addSolve(self, solve: Solve):
+    def submitFlag(self, flag, challenge, user):
+        if challenge.checkFlag(flag):
+            submission = SubmissionCreator.create_valid_submission(user, challenge)
+            self.addSolve(submission)
+        else:
+            SubmissionCreator.create_invalid_submission(user, challenge)
+
+    def addSolve(self, solve: Submission):
         self.solves.append(solve)
         self.updateScoreboard()
 
