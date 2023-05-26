@@ -1,11 +1,11 @@
 # MyMiniCTFd
 
 ## Style/Patrons
-1 - Singleton (Observateur du scoreboard)
-2 - Fabrique (Création des challenges)
-3 - Observateur (Scoring)
-4 - Proxy si rien d'autre (gestion des accès)
-5 - MVC (Modèle Vue Contrôleur)
+- Singleton (Observateur du scoreboard)
+- Fabrique (Création des challenges)
+- Observateur (Scoring)
+- Proxy si rien d'autre (gestion des accès)
+- MVC (Modèle Vue Contrôleur)
 
 ## Exigences minimales
 - L'administrateur doit pouvoir créer un CTF
