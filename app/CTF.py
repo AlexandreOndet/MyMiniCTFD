@@ -21,3 +21,6 @@ class CTF:
 
     def add_challenge(self, challenge: Challenge):
         self.challenges.append(challenge)
+
+    def remove_challenge(self, challenge: Challenge):
+        self.challenges.remove(challenge)

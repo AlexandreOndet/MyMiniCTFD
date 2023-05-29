@@ -24,11 +24,15 @@ class Scoreboard:
         return self.instance
 
     def submitFlag(self, flag, challenge, user):
-        if challenge.checkFlag(flag):
-            submission = SubmissionCreator.create_valid_submission(user, challenge)
-            self.addSolve(submission)
-        else:
+        if not challenge.checkFlag(flag):
             SubmissionCreator.create_invalid_submission(user, challenge)
+            return
+        for submission in user.submissions:
+            if (submission.challenge == challenge) and (submission.challenge.checkFlag(flag)):
+                SubmissionCreator.create_duplicated_submission(user, challenge)
+                return
+        submission = SubmissionCreator.create_valid_submission(user, challenge)
+        self.addSolve(submission)
 
     def addSolve(self, solve: Submission):
         self.solves.append(solve)

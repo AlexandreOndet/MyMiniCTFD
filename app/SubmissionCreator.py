@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.Submission import ValidSubmission, InvalidSubmission
+from app.Submission import ValidSubmission, InvalidSubmission, DuplicatedSubmission
 
 
 class SubmissionCreator:
@@ -11,3 +11,7 @@ class SubmissionCreator:
     @staticmethod
     def create_invalid_submission(user, challenge, timestamp=datetime.now()):
         return InvalidSubmission(user, challenge, timestamp)
+    
+    @staticmethod
+    def create_duplicated_submission(user, challenge, timestamp=datetime.now()):
+        return DuplicatedSubmission(user, challenge, timestamp)

@@ -17,12 +17,15 @@ class Submission:
         self.timestamp = timestamp
         user.submissions.append(self)
 
-
 class ValidSubmission(Submission):
     def __init__(self, user, challenge, timestamp=datetime.now()):
         super().__init__(user, challenge, timestamp)
 
 
 class InvalidSubmission(Submission):
+    def __init__(self, user, challenge, timestamp=datetime.now()):
+        super().__init__(user, challenge, timestamp)
+
+class DuplicatedSubmission(Submission):
     def __init__(self, user, challenge, timestamp=datetime.now()):
         super().__init__(user, challenge, timestamp)

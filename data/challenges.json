@@ -1,0 +1,19 @@
+{
+    "challenges":
+    [
+        {
+            "name": "Challenge 101",
+            "description": "Simple 101 challenge",
+            "category": "Forensic",
+            "points": 10,
+            "flag": "flag-b3424j40fds9fbk433"
+        },
+        {
+            "name": "Challenge 102",
+            "description": "Simple 102 challenge",
+            "category": "Reverse",
+            "points": 15,
+            "flag": "flag-hj5gh48799udsjsah329"
+        }
+    ]
+}
