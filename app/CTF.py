@@ -27,12 +27,18 @@ class CTF:
         self.challenges.remove(challenge)
 
     def exportChallengesAsJson(self, filename):
-        with open(filename, 'w') as outfile:
+        with open("data/" + filename, 'w') as outfile:  # unsafe
             json.dump([challenge.__dict__ for challenge in self.challenges], outfile)
 
     def importChallengeFromJson(self, filename):
-        with open(filename) as json_file:
+        with open("data/" + filename) as json_file:
             data = json.load(json_file)
-            for challenge in data.challenges:
-                self.addChallenge(Challenge(challenge['name'], challenge['description'], challenge['flag'], challenge['points']))
+            for challenge in data:
+                self.addChallenge(
+                    Challenge(challenge['name'], challenge['description'], challenge['category'], challenge['points'],
+                              challenge['flag']))
 
+    def displayChallenges(self):
+        """show all challenges by category"""
+        for challenge in self.challenges:
+            print(challenge.name, challenge.category, challenge.points, sep=" | ")
