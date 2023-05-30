@@ -23,16 +23,27 @@ class Scoreboard:
             self.instance = Scoreboard()
         return self.instance
 
-    def submitFlag(self, flag, challenge, user):
+    def submitFlag(self, flag, challenge, userId):
+        user = None
+        for u in self.users:
+            if u.id == userId:
+                user = u
+                break
+        if user is None:
+            raise Exception("User not found!")
+
         if not challenge.checkFlag(flag):
-            SubmissionCreator.create_invalid_submission(user, challenge)
+            s = SubmissionCreator.create_invalid_submission(userId, challenge)
+            user.submissions.append(s)
             return
         for submission in user.submissions:
             if (submission.challenge == challenge) and (submission.challenge.checkFlag(flag)):
-                SubmissionCreator.create_duplicated_submission(user, challenge)
+                s = SubmissionCreator.create_duplicated_submission(userId, challenge)
+                user.submissions.append(s)
                 return
-        submission = SubmissionCreator.create_valid_submission(user, challenge)
-        self.addSolve(submission)
+        s = SubmissionCreator.create_valid_submission(userId, challenge)
+        self.addSolve(s)
+        user.submissions.append(s)
 
     def addSolve(self, solve: Submission):
         self.solves.append(solve)

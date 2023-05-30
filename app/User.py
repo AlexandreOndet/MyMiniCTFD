@@ -4,6 +4,7 @@ from app.Submission import Submission
 
 
 class User:
+    id: int = 0
     name: str
     score: int
     submissions: List[Submission]
@@ -12,3 +13,4 @@ class User:
         self.name = name
         self.score = score
         self.submissions = submissions
+        self.id += 1

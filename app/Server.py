@@ -8,7 +8,7 @@ class Server:
     ctf: CTF
     users: List[User]
 
-    def __init__(self):
+    def __main__(self):
         print("Initializing Server...")
         name = input("CTF Name: ")
         define_a_start = input("Define a start time? (y/n): ")
@@ -29,4 +29,24 @@ class Server:
     def registerUser(self, user: User):
         self.users.append(user)
         print("User %s registered!" % user.name)
-        
+
+    def printScoreboard(self):
+        self.ctf.scoreboard.printScoreboard()
+
+    def addChallenge(self, challenge):
+        self.ctf.addChallenge(challenge)
+        print("Challenge %s added!" % challenge.name)
+
+    def removeChallenge(self, challenge):
+        self.ctf.removeChallenge(challenge)
+        print("Challenge %s removed!" % challenge.name)
+
+    def importChallengeFromJson(self, filename):
+        self.ctf.importChallengeFromJson(filename)
+        print("Challenges imported from %s!" % filename)
+
+    def exportChallengesAsJson(self, filename):
+        self.ctf.exportChallengesAsJson(filename)
+        print("Challenges exported to %s!" % filename)
+
+
