@@ -20,11 +20,20 @@ class CTF:
         self.challenges = challenges
         self.scoreboard = Scoreboard()
 
-    def addChallenge(self, challenge: Challenge):
-        self.challenges.append(challenge)
+    def addChallenge(self, newChall: Challenge):
+        for chall in self.challenges:
+            if chall.name == newChall.name:
+                raise Exception("Challenge already exists")
+                return
+        self.challenges.append(newChall)
 
-    def removeChallenge(self, challenge: Challenge):
-        self.challenges.remove(challenge)
+    def createChallenge(self, name: str, description: str, category: str, points: int, flag: str):
+        self.addChallenge(Challenge(name, description, category, points, flag))
+
+    def removeChallenge(self, name: str):
+        for challenge in self.challenges:
+            if challenge.name == name:
+                self.challenges.remove(challenge)
 
     def exportChallengesAsJson(self, filename):
         with open("data/" + filename, 'w') as outfile:  # unsafe
@@ -42,3 +51,12 @@ class CTF:
         """show all challenges by category"""
         for challenge in self.challenges:
             print(challenge.name, challenge.category, challenge.points, sep=" | ")
+
+    def printCTF(self):
+        print("CTF Name: %s" % self.name)
+        print("CTF Start: %s" % self.start)
+        print("CTF End: %s" % self.end)
+        print("Challenges:")
+        self.displayChallenges()
+        print("Scoreboard:")
+        self.scoreboard.printScoreboard()

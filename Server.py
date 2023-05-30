@@ -1,7 +1,6 @@
 from typing import List
 
 from app.CTF import CTF
-from app.User import User
 
 
 class Server:
@@ -28,9 +27,9 @@ class Server:
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()
 
-    def addChallenge(self, challenge):
-        self.ctf.addChallenge(challenge)
-        print("Challenge %s added!" % challenge.name)
+    def createChallenge(self, name, description, category, points, flag):
+        self.ctf.createChallenge(name, description, category, points, flag)
+        print("Challenge %s created!" % name)
 
     def removeChallenge(self, challenge):
         self.ctf.removeChallenge(challenge)
@@ -47,11 +46,15 @@ class Server:
     def displayChallenges(self):
         self.ctf.displayChallenges()
 
+    def printCTF(self):
+        self.ctf.printCTF()
+
 
 if __name__ == "__main__":
     serv = Server()
 
     while True:
+        print("1. Print CTF")
         print("2. Print Scoreboard")
         print("3. Add Challenge")
         print("4. Remove Challenge")
@@ -60,20 +63,20 @@ if __name__ == "__main__":
         print("7. Display Challenges")
         print("8. Exit")
         choice = input("Choice: ")
-        if choice == "2":
+        if choice == "1":
+            serv.printCTF()
+        elif choice == "2":
             serv.printScoreboard()
         elif choice == "3":
             name = input("Name: ")
             description = input("Description: ")
             flag = input("Flag: ")
             points = input("Points: ")
-            # serv.addChallenge(Challenge(name, description, flag, points))
+            category = input("Category: ")
+            serv.createChallenge(name, description, category, points, flag)
         elif choice == "4":
             name = input("Name: ")
-            description = input("Description: ")
-            flag = input("Flag: ")
-            points = input("Points: ")
-            # serv.removeChallenge(Challenge(name, description, flag, points))
+            serv.removeChallenge(name)
         elif choice == "5":
             filename = input("Filename: ")
             serv.importChallengeFromJson(filename)
