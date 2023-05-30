@@ -50,18 +50,22 @@ class Server:
         self.ctf.printCTF()
 
 
+def printMenu():
+    print("1. Print CTF")
+    print("2. Print Scoreboard")
+    print("3. Add Challenge")
+    print("4. Remove Challenge")
+    print("5. Import Challenges from JSON")
+    print("6. Export Challenges to JSON")
+    print("7. Display Challenges")
+    print("8. Help")
+    print("9. Exit")
+
+
 if __name__ == "__main__":
     serv = Server()
-
+    printMenu()
     while True:
-        print("1. Print CTF")
-        print("2. Print Scoreboard")
-        print("3. Add Challenge")
-        print("4. Remove Challenge")
-        print("5. Import Challenges from JSON")
-        print("6. Export Challenges to JSON")
-        print("7. Display Challenges")
-        print("8. Exit")
         choice = input("Choice: ")
         if choice == "1":
             serv.printCTF()
@@ -86,6 +90,8 @@ if __name__ == "__main__":
         elif choice == "7":
             serv.displayChallenges()
         elif choice == "8":
+            printMenu()
+        elif choice == "9":
             break
         else:
             print("Invalid choice!")
