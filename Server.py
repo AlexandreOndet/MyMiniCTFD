@@ -6,7 +6,6 @@ from app.User import User
 
 class Server:
     ctf: CTF
-    users: List[User]
 
     def __init__(self):
         print("Initializing Server...")
@@ -25,10 +24,6 @@ class Server:
         print("CTF %s created!" % self.ctf.name)
         print("CTF Start: %s" % self.ctf.start)
         print("CTF End: %s" % self.ctf.end)
-
-    def registerUser(self, user: User):
-        self.users.append(user)
-        print("User %s registered!" % user.name)
 
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()
@@ -57,7 +52,6 @@ if __name__ == "__main__":
     serv = Server()
 
     while True:
-        print("1. Register User")
         print("2. Print Scoreboard")
         print("3. Add Challenge")
         print("4. Remove Challenge")
@@ -66,24 +60,20 @@ if __name__ == "__main__":
         print("7. Display Challenges")
         print("8. Exit")
         choice = input("Choice: ")
-        if choice == "1":
-            name = input("Name: ")
-            user = User(name)
-            serv.registerUser(user)
-        elif choice == "2":
+        if choice == "2":
             serv.printScoreboard()
         elif choice == "3":
             name = input("Name: ")
             description = input("Description: ")
             flag = input("Flag: ")
             points = input("Points: ")
-            #serv.addChallenge(Challenge(name, description, flag, points))
+            # serv.addChallenge(Challenge(name, description, flag, points))
         elif choice == "4":
             name = input("Name: ")
             description = input("Description: ")
             flag = input("Flag: ")
             points = input("Points: ")
-            #serv.removeChallenge(Challenge(name, description, flag, points))
+            # serv.removeChallenge(Challenge(name, description, flag, points))
         elif choice == "5":
             filename = input("Filename: ")
             serv.importChallengeFromJson(filename)
