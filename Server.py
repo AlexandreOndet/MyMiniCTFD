@@ -26,7 +26,7 @@ class Server:
         print("CTF Start: %s" % self.ctf.start)
         print("CTF End: %s" % self.ctf.end)
         print("Importing challenges...")
-        self.importChallengeFromJson("data/challenges.json")
+        self.importChallengeFromJson("challenges.json")
         print("Initializing API Router...")
         self.router = APIRouter()
         self.router.add_api_route("/", self.get_info, methods=["GET"])
