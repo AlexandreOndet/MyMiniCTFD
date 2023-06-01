@@ -30,25 +30,29 @@ class Server:
         self.importChallengeFromJson("challenges.json")
         print(colored("Initializing API Router...", "blue"))
         self.router = APIRouter()
-        self.router.add_api_route("/", self.get_info, methods=["GET"])
-        self.router.add_api_route("/challenges", self.get_challenges, methods=["GET"])
-        self.router.add_api_route("/scoreboard", self.get_scoreboard, methods=["GET"])
-        self.router.add_api_route("/submit", self.post_submit, methods=["POST"])
+        self.router.add_api_route("/", self.getInfo, methods=["GET"])
+        self.router.add_api_route("/challenges", self.getChallenges, methods=["GET"])
+        self.router.add_api_route("/scoreboard", self.getScoreboard, methods=["GET"])
+        self.router.add_api_route("/submit", self.postSubmit, methods=["POST"])
 
     # API
-    def get_info(self):
-        return {"Hello": "World!"}
+    def getInfo(self):
+        return self.ctf.exportInfoAsJsonForUsers()
     
     # API
-    def get_challenges(self):
+    def getChallenges(self):
         return self.ctf.exportChallengesAsJsonForUsers()
 
     # API
-    def get_scoreboard(self):
+    def getScoreboard(self):
         return self.ctf.scoreboard.exportScoreboardAsJsonForUsers()
 
     # API
-    def post_submit(self):
+    def postRegister(self):
+        pass
+
+    # API
+    def postSubmit(self):
         pass
 
     def printScoreboard(self):
