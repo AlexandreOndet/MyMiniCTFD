@@ -1,10 +1,12 @@
+import uvicorn
+from fastapi import FastAPI, APIRouter
 from typing import List
 
 from app.CTF import CTF
 
-
 class Server:
     ctf: CTF
+    router: APIRouter
 
     def __init__(self):
         print("Initializing Server...")
@@ -23,6 +25,14 @@ class Server:
         print("CTF %s created!" % self.ctf.name)
         print("CTF Start: %s" % self.ctf.start)
         print("CTF End: %s" % self.ctf.end)
+        print("Importing challenges...")
+        self.importChallengeFromJson("data/challenges.json")
+        print("Initializing API Router...")
+        self.router = APIRouter()
+        self.router.add_api_route("/", self.get_info, methods=["GET"])
+
+    def get_info(self):
+        return {"Hello": "World!"}
 
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()
@@ -50,48 +60,9 @@ class Server:
         self.ctf.printCTF()
 
 
-def printMenu():
-    print("1. Print CTF")
-    print("2. Print Scoreboard")
-    print("3. Add Challenge")
-    print("4. Remove Challenge")
-    print("5. Import Challenges from JSON")
-    print("6. Export Challenges to JSON")
-    print("7. Display Challenges")
-    print("8. Help")
-    print("9. Exit")
-
+serv = Server()
+app = FastAPI()
+app.include_router(serv.router)
 
 if __name__ == "__main__":
-    serv = Server()
-    printMenu()
-    while True:
-        choice = input("Choice: ")
-        if choice == "1":
-            serv.printCTF()
-        elif choice == "2":
-            serv.printScoreboard()
-        elif choice == "3":
-            name = input("Name: ")
-            description = input("Description: ")
-            flag = input("Flag: ")
-            points = input("Points: ")
-            category = input("Category: ")
-            serv.createChallenge(name, description, category, points, flag)
-        elif choice == "4":
-            name = input("Name: ")
-            serv.removeChallenge(name)
-        elif choice == "5":
-            filename = input("Filename: ")
-            serv.importChallengeFromJson(filename)
-        elif choice == "6":
-            filename = input("Filename: ")
-            serv.exportChallengesAsJson(filename)
-        elif choice == "7":
-            serv.displayChallenges()
-        elif choice == "8":
-            printMenu()
-        elif choice == "9":
-            break
-        else:
-            print("Invalid choice!")
+    uvicorn.run(app, host="0.0.0.0", port=8000)
