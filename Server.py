@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI, APIRouter
 from typing import List
+from termcolor import colored
 
 from app.CTF import CTF
 
@@ -9,7 +10,7 @@ class Server:
     router: APIRouter
 
     def __init__(self):
-        print("Initializing Server...")
+        print(colored("Initializing Server...", "blue"))
         name = input("CTF Name: ")
         define_a_start = input("Define a start time? (y/n): ")
         if define_a_start == "y":
@@ -22,17 +23,33 @@ class Server:
         else:
             end = None
         self.ctf = CTF(name, start, end)
-        print("CTF %s created!" % self.ctf.name)
-        print("CTF Start: %s" % self.ctf.start)
-        print("CTF End: %s" % self.ctf.end)
-        print("Importing challenges...")
+        print(colored("CTF %s created!" % self.ctf.name, "green"))
+        print(colored("CTF Start: %s" % self.ctf.start, "green"))
+        print(colored("CTF End: %s" % self.ctf.end, "green"))
+        print(colored("Importing challenges...", "blue"))
         self.importChallengeFromJson("challenges.json")
-        print("Initializing API Router...")
+        print(colored("Initializing API Router...", "blue"))
         self.router = APIRouter()
         self.router.add_api_route("/", self.get_info, methods=["GET"])
+        self.router.add_api_route("/challenges", self.get_challenges, methods=["GET"])
+        self.router.add_api_route("/scoreboard", self.get_scoreboard, methods=["GET"])
+        self.router.add_api_route("/submit", self.post_submit, methods=["POST"])
 
+    # API
     def get_info(self):
         return {"Hello": "World!"}
+    
+    # API
+    def get_challenges(self):
+        return self.ctf.exportChallengesAsJsonForUsers()
+
+    # API
+    def get_scoreboard(self):
+        return self.ctf.scoreboard.exportScoreboardAsJsonForUsers()
+
+    # API
+    def post_submit(self):
+        pass
 
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()
@@ -47,7 +64,7 @@ class Server:
 
     def importChallengeFromJson(self, filename):
         self.ctf.importChallengeFromJson(filename)
-        print("Challenges imported from %s!" % filename)
+        print(colored("Challenges imported from %s!" % filename, "green"))
 
     def exportChallengesAsJson(self, filename):
         self.ctf.exportChallengesAsJson(filename)

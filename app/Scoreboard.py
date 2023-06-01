@@ -1,9 +1,9 @@
 from typing import List
+import json
 
 from app.Submission import Submission
 from app.SubmissionCreator import SubmissionCreator
 from app.User import User
-
 
 class Scoreboard:
     solves: List[Submission]
@@ -64,4 +64,10 @@ class Scoreboard:
     def printScoreboard(self):
         for rank in range(len(self.users)):
             print("%s. %s (%s)" % (rank + 1, self.users[rank].name, self.users[rank].score))
+
+    def exportScoreboardAsJsonForUsers(self):
+        scoreboard = []
+        for rank in range(len(self.users)):
+            scoreboard.append({"rank": rank+1, "name": self.users[rank].name, "score": self.users[rank].score})
+        return json.dumps(scoreboard)
 

@@ -39,6 +39,12 @@ class CTF:
         with open("data/" + filename, 'w') as outfile:  # unsafe
             json.dump([challenge.__dict__ for challenge in self.challenges], outfile)
 
+    def exportChallengesAsJsonForUsers(self):
+        data = [challenge.__dict__ for challenge in self.challenges]
+        for challenge in data:
+            challenge.pop("flag")
+        return json.dumps(data)
+
     def importChallengeFromJson(self, filename):
         with open("data/" + filename) as json_file:
             data = json.load(json_file)
