@@ -5,6 +5,7 @@ from typing import List
 from termcolor import colored
 
 from app.CTF import CTF
+from app.User import User
 
 class Server:
     ctf: CTF
@@ -57,9 +58,12 @@ class Server:
     def postUser(self, name:str):
         for user in range(len(self.ctf.scoreboard.users)):
             if user.getName() == name:
-                return
-        
-            
+                return {"message" : "Utilisateur existant"}
+        user=User(name=name)
+        user.exportUserInJson("users.json")
+        self.ctf.scoreboard.addUser(user)
+        return {"message" : "Utilisateur ajoutée"}
+         
 
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()
