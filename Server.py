@@ -1,4 +1,5 @@
 import uvicorn
+import json
 from fastapi import FastAPI, APIRouter
 from typing import List
 from termcolor import colored
@@ -34,6 +35,7 @@ class Server:
         self.router.add_api_route("/challenges", self.getChallenges, methods=["GET"])
         self.router.add_api_route("/scoreboard", self.getScoreboard, methods=["GET"])
         self.router.add_api_route("/submit", self.postSubmit, methods=["POST"])
+        self.router.add_api_route("/users/", self.postUser, methods=["POST"])
 
     # API
     def getInfo(self):
@@ -46,14 +48,18 @@ class Server:
     # API
     def getScoreboard(self):
         return self.ctf.scoreboard.exportScoreboardAsJsonForUsers()
-
-    # API
-    def postRegister(self):
-        pass
-
+    
     # API
     def postSubmit(self):
         pass
+    
+    # API
+    def postUser(self, name:str):
+        for user in range(len(self.ctf.scoreboard.users)):
+            if user.getName() == name:
+                return
+        
+            
 
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()

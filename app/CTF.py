@@ -19,6 +19,7 @@ class CTF:
         self.end = end
         self.challenges = challenges
         self.scoreboard = Scoreboard()
+        self.scoreboard.importUserFromJson("users.json")
 
     def addChallenge(self, newChall: Challenge):
         for chall in self.challenges:
@@ -36,7 +37,7 @@ class CTF:
                 self.challenges.remove(challenge)
 
     def exportChallengesAsJson(self, filename):
-        with open("data/" + filename, 'w') as outfile:  # unsafe
+        with open("data/" + filename, 'w') as outfile:
             json.dump([challenge.__dict__ for challenge in self.challenges], outfile)
 
     def exportChallengesAsJsonForUsers(self):
