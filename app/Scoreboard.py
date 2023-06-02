@@ -75,7 +75,7 @@ class Scoreboard:
         with open("data/" + filename) as userfile:
             data = json.load(userfile)
             for user in data:
-                self.addChallenge(
+                self.addUser(
                     User(user['name'], user['description'], user['submissions']))
 
         
