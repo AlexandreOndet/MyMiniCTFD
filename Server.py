@@ -55,15 +55,12 @@ class Server:
     
     # API
     def postUser(self, name:str):
-        try:
-            for user in range(len(self.ctf.scoreboard.users)):
-                if user.getName() == name:
-                    return {"message" : "Utilisateur existant"}
-        except TypeError:
-            user=User(name=name)
-            user.exportUserInJson("users.json")
-            self.ctf.scoreboard.addUser(user)
-            return {"message" : "Utilisateur ajoutée"}
+        for user in self.ctf.scoreboard.users:
+            if user.getName() == name:
+                return {"message" : "Utilisateur existant"}
+        user=User(name=name)
+        self.ctf.scoreboard.addUser(user)
+        return {"message" : "Utilisateur ajoutée"}
          
 
     def printScoreboard(self):

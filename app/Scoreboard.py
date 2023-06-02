@@ -60,6 +60,7 @@ class Scoreboard:
                 if solve.user.name == user.name:
                     user.score += solve.challenge.points
         self.users.sort(key=lambda x: x.score, reverse=True)
+        self.exportUserToJson(filename="users.json")
 
     def printScoreboard(self):
         for rank in range(len(self.users)):
@@ -71,6 +72,10 @@ class Scoreboard:
             scoreboard.append({"rank": rank+1, "name": self.users[rank].name, "score": self.users[rank].score})
         return json.dumps(scoreboard)
     
+    def exportUserToJson(self, filename):
+        with open("data/" + filename, 'w') as userfile:
+            json.dump([user.__dict__ for user in self.users], userfile)
+            
     def importUserFromJson(self, filename):
         with open("data/" + filename) as userfile:
             try:
