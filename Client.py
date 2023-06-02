@@ -1,13 +1,11 @@
 import requests
 
-APIURL = "https://localhost:8000/users/"
+APIURL = "http://localhost:8000/"
 
 if __name__ == "__main__":
-    name = input("Quel est votre nom ?").lower()
-    
-    #post : name if name existe déjà récupération du score
-    requests.post("APIURL",name)
-    print(f"Bonjour {name}, voici la liste des challenges disponibles")
-    
-    
+    nom = input("Quel est votre nom ?").lower()
+    page = requests.post(APIURL + "users", params={"name":nom})
+    print(page)
+    print(f"Bonjour {nom}, voici la liste des challenges disponibles")
+        
     

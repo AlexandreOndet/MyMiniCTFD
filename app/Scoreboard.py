@@ -10,7 +10,7 @@ class Scoreboard:
     users: List[User]
     instance = None
 
-    def __init__(self, solves=None, users=None):
+    def __init__(self, solves=[], users=[]):
         if self.instance is not None:
             raise Exception("Scoreboard is a singleton!")
         else:
@@ -73,9 +73,13 @@ class Scoreboard:
     
     def importUserFromJson(self, filename):
         with open("data/" + filename) as userfile:
-            data = json.load(userfile)
-            for user in data:
-                self.addUser(User(user['name'], user['description'], user['submissions']))
+            try:
+                data = json.load(userfile)
+                for user in data:
+                    self.addUser(User(user['name'], user['submissions']))
+            except json.decoder.JSONDecodeError:
+                print("fichier d'utilisateur vide")
+            
 
         
 

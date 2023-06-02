@@ -4,6 +4,7 @@ from typing import List
 
 from app.Challenge import Challenge
 from app.Scoreboard import Scoreboard
+from termcolor import colored
 
 
 class CTF:
@@ -19,6 +20,7 @@ class CTF:
         self.end = end
         self.challenges = challenges
         self.scoreboard = Scoreboard()
+        print(colored("Importing users...", "blue"))
         self.scoreboard.importUserFromJson("users.json")
 
     def addChallenge(self, newChall: Challenge):
