@@ -44,6 +44,7 @@ class Scoreboard:
         s = SubmissionCreator.create_valid_submission(userId, challenge)
         self.addSolve(s)
         user.submissions.append(s)
+        return s
 
     def addSolve(self, solve: Submission):
         self.solves.append(solve)
@@ -57,7 +58,7 @@ class Scoreboard:
         for user in self.users:
             user.score = 0
             for solve in self.solves:
-                if solve.user.name == user.name:
+                if solve.userId == user.id:
                     user.score += solve.challenge.points
         self.users.sort(key=lambda x: x.score, reverse=True)
         self.exportUserToJson(filename="users.json")

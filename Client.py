@@ -1,10 +1,12 @@
 import requests
+import json
 
 APIURL = "http://localhost:8000/"
 USER = ""
+ID = 0
 
 def printJSON(data: bytes):
-    print(data.content.decode("utf-8"))
+    print(json.dumps(json.loads(data.content.decode()), indent=6))
 
 def displayMenu():
     print("####################################")
@@ -24,13 +26,14 @@ def displayScoreboard():
     return requests.get(APIURL + "scoreboard")
 
 def submitFlag(challenge: str, flag: str):
-    return requests.post(APIURL + "submit", params={"user":USER, "challenge": challenge, "flag": flag})
+    return requests.post(APIURL + "submit", params={"id":ID, "challenge": challenge, "flag": flag})
 
 if __name__ == "__main__":
     USER = input("Quel est votre nom ? ").lower()
     page = requests.post(APIURL + "users", params={"name":USER})
+    ID = json.loads(page.content.decode())["id"]
     printJSON(page)
-    print(f"Bonjour {USER}, voici la liste des challenges disponibles")
+    print(f"Bonjour {USER} (uid = {ID}), voici la liste des challenges disponibles")
     printJSON(displayChallenges())
     while(True):
         displayMenu()

@@ -5,6 +5,7 @@ from termcolor import colored
 
 from app.CTF import CTF
 from app.User import User
+from app.Submission import ValidSubmission, InvalidSubmission, DuplicatedSubmission
 
 class Server:
     ctf: CTF
@@ -50,17 +51,31 @@ class Server:
         return self.ctf.scoreboard.exportScoreboardAsJsonForUsers()
     
     # API
-    def postSubmit(self):
-        pass
+    def postSubmit(self, id:int, challenge:str, flag:str):
+        chall = None
+        for c in self.ctf.challenges:
+            if c.name == challenge:
+                chall = c
+                break
+        if chall is None:
+            raise Exception("Challenge not found!")
+        
+        submission = self.ctf.scoreboard.submitFlag(flag, chall, id)
+        if type(submission) == ValidSubmission:
+            return {"message" : "Flag correct"}
+        elif type(submission) == DuplicatedSubmission:
+            return {"message" : "Flag déja soumis"}
+        else:
+            return {"message" : "Flag incorrect"}
     
     # API
     def postUser(self, name:str):
         for user in self.ctf.scoreboard.users:
             if user.getName() == name:
-                return {"message" : "Utilisateur existant"}
+                return {"message" : "Utilisateur existant", "id": user.id}
         user=User(name=name)
         self.ctf.scoreboard.addUser(user)
-        return {"message" : "Utilisateur ajoutée"}
+        return {"message" : "Utilisateur ajoutée", "id": user.id}
          
 
     def printScoreboard(self):
