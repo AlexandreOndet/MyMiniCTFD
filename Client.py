@@ -57,6 +57,15 @@ if __name__ == "__main__":
                     flag = input("-> Saisissez le flag : ")
                     print("------------------------")
                     printJSON(submitFlag(challenge, flag))
+                case 5:
+                    print("---------Submit Challenge---------")
+                    name = input("-> Saisissez le nom du challenge : ")
+                    description = input("-> Saisissez la description du challenge : ")
+                    category = input("-> Saisissez la category du challenge : ")
+                    points = input("-> Saisissez le nombre de points du challenge : ")
+                    flag = input("-> Saisissez le flag attendu du challenge: ")
+                    print("------------------------")
+                    printJSON(createChallenge(name, description, category, points, flag))
                 case _:
                     print("Choix non reconnu !")
         else:
@@ -73,14 +82,5 @@ if __name__ == "__main__":
                     flag = input("-> Saisissez le flag : ")
                     print("------------------------")
                     printJSON(submitFlag(challenge, flag))
-                case 5:
-                    print("---------Submit Challenge---------")
-                    name = input("-> Saisissez le nom du challenge : ")
-                    description = input("-> Saisissez la description du challenge : ")
-                    category = input("-> Saisissez la category du challenge : ")
-                    points = input("-> Saisissez le nombre de points du challenge : ")
-                    flag = input("-> Saisissez le flag attendu du challenge: ")
-                    print("------------------------")
-                    printJSON(createChallenge(name, description, category, points, flag))
                 case _:
                     print("Choix non reconnu !")
