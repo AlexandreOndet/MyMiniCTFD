@@ -5,45 +5,55 @@ APIURL = "http://localhost:8000/"
 USER = ""
 ID = 0
 
+
 def printJSON(data: bytes):
     try:
         print(json.dumps(json.loads(data.content.decode()), indent=6))
     except json.decoder.JSONDecodeError:
-        print("Le serveur n'a renvoyé aucun contenu")
+        print("The server didn't return a valid answer")
+
 
 def displayMenu():
     print("####################################")
-    print("1 - Afficher les informations du CTF")
-    print("2 - Afficher les challenges")
-    print("3 - Afficher le classement")
-    print("4 - Soumettre un flag")
+    print("1 - Display the CTF information")
+    print("2 - Display the challenges")
+    print("3 - Display the scoreboard")
+    print("4 - Submit a flag")
     if USER == "admin":
-        print("5 - Créer un nouveau challenge")
+        print("5 - Create a new challenge")
     print("####################################")
+
 
 def displayCTF():
     return requests.get(APIURL)
 
+
 def displayChallenges():
     return requests.get(APIURL + "challenges")
+
 
 def displayScoreboard():
     return requests.get(APIURL + "scoreboard")
 
+
 def submitFlag(challenge: str, flag: str):
-    return requests.post(APIURL + "submit", params={"id":ID, "challenge": challenge, "flag": flag})
+    return requests.post(APIURL + "submit", params={"id": ID, "challenge": challenge, "flag": flag})
+
 
 def createChallenge(name: str, description: str, category: str, points: int, flag: str):
-    return requests.post(APIURL + "createChallenges", params={"name":name, "description":description, "category":category, "points":points, "flag":flag})
+    return requests.post(APIURL + "createChallenges",
+                         params={"name": name, "description": description, "category": category, "points": points,
+                                 "flag": flag})
+
 
 if __name__ == "__main__":
-    USER = input("Quel est votre nom ? ").lower()
-    page = requests.post(APIURL + "users", params={"name":USER})
+    USER = input("What is your name ? ").lower()
+    page = requests.post(APIURL + "users", params={"name": USER})
     ID = json.loads(page.content.decode())["id"]
     printJSON(page)
-    print(f"Bonjour {USER} (uid = {ID}), voici la liste des challenges disponibles")
+    print(f"Hello {USER} (uid = {ID}), here is the list of challenges :")
     printJSON(displayChallenges())
-    while(True):
+    while (True):
         displayMenu()
         userInput = input("> ")
         if USER == "admin":
@@ -56,24 +66,24 @@ if __name__ == "__main__":
                     case 3:
                         printJSON(displayScoreboard())
                     case 4:
-                        print("---------Submit---------")
-                        challenge = input("-> Saisissez le nom du challenge : ")
-                        flag = input("-> Saisissez le flag : ")
+                        print("---------Submit Flag---------")
+                        challenge = input("-> Write the challenge name : ")
+                        flag = input("-> Write the flag : ")
                         print("------------------------")
                         printJSON(submitFlag(challenge, flag))
                     case 5:
                         print("---------Submit Challenge---------")
-                        name = input("-> Saisissez le nom du challenge : ")
-                        description = input("-> Saisissez la description du challenge : ")
-                        category = input("-> Saisissez la category du challenge : ")
-                        points = int(input("-> Saisissez le nombre de points du challenge : "))
-                        flag = input("-> Saisissez le flag attendu du challenge: ")
+                        name = input("-> Write the challenge name : ")
+                        description = input("-> Write the challenge description : ")
+                        category = input("-> Write the challenge category : ")
+                        points = int(input("-> Write the number of points the challenge is worth : "))
+                        flag = input("-> Write the flag : ")
                         print("------------------------")
                         printJSON(createChallenge(name, description, category, points, flag))
                     case _:
-                        print("Choix non reconnu !")
+                        print("Invalid choice !")
             except ValueError:
-                print("L'input doit être un nombre")
+                print("The input must be a number")
         else:
             try:
                 match int(userInput):
@@ -85,12 +95,11 @@ if __name__ == "__main__":
                         printJSON(displayScoreboard())
                     case 4:
                         print("---------Submit Flag---------")
-                        challenge = input("-> Saisissez le nom du challenge : ")
-                        flag = input("-> Saisissez le flag : ")
+                        challenge = input("-> Write the challenge name : ")
+                        flag = input("-> Write the flag : ")
                         print("------------------------")
                         printJSON(submitFlag(challenge, flag))
                     case _:
-                        print("Choix non reconnu !")
+                        print("Invalid choice !")
             except ValueError:
-                print("L'input doit être un nombre")
-                
+                print("The input must be a number")

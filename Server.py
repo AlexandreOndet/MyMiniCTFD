@@ -7,6 +7,7 @@ from app.CTF import CTF
 from app.User import User
 from app.Submission import ValidSubmission, InvalidSubmission, DuplicatedSubmission
 
+
 class Server:
     ctf: CTF
     router: APIRouter
@@ -42,7 +43,7 @@ class Server:
     # API
     def getInfo(self):
         return self.ctf.exportInfoAsJsonForUsers()
-    
+
     # API
     def getChallenges(self):
         return self.ctf.exportChallengesAsJsonForUsers()
@@ -50,37 +51,37 @@ class Server:
     # API
     def getScoreboard(self):
         return self.ctf.scoreboard.exportScoreboardAsJsonForUsers()
-    
+
     # API
-    def postSubmit(self, id:int, challenge:str, flag:str):
+    def postSubmit(self, id: int, challenge: str, flag: str):
         chall = None
         for c in self.ctf.challenges:
             if c.name == challenge:
                 chall = c
                 break
         if chall is None:
-            return {"warning" : "Le challenge n'existe pas"}  
+            return {"warning": "The challenge doesn't exist"}
         submission = self.ctf.scoreboard.submitFlag(flag, chall, id)
         if type(submission) == ValidSubmission:
-            return {"message" : "Flag correct"}
+            return {"message": "Correct flag"}
         elif type(submission) == DuplicatedSubmission:
-            return {"message" : "Flag déja soumis"}
+            return {"message": "Flag already submitted"}
         else:
-            return {"message" : "Flag incorrect"}
-    
+            return {"message": "Flag incorrect"}
+
     # API
-    def postUser(self, name:str):
+    def postUser(self, name: str):
         for user in self.ctf.scoreboard.users:
             if user.getName() == name:
-                return {"message" : "Utilisateur existant", "id": user.id}
-        user=User(name=name)
+                return {"message": "Existing user", "id": user.id}
+        user = User(name=name)
         self.ctf.scoreboard.addUser(user)
-        return {"message" : "Utilisateur ajoutée", "id": user.id}
-    
-    #API
-    def postChallenge(self, name:str, description:str, category:str, points:int, flag:str):
+        return {"message": "User added", "id": user.id}
+
+    # API
+    def postChallenge(self, name: str, description: str, category: str, points: int, flag: str):
         self.ctf.createChallenge(name, description, category, points, flag)
-        return {"message" : f"Challenge {name} ajoutée"}
+        return {"message": f"Challenge {name} added"}
 
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()
