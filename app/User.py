@@ -11,10 +11,11 @@ class User:
     submissions: List[Submission]
 
     def __init__(self, name, score=0, submissions=[]):
+        User.id += 1
+        self.id = User.id
         self.name = name
         self.score = score
         self.submissions = submissions
-        self.id += 1
     
     def getName(self):
         return self.name
