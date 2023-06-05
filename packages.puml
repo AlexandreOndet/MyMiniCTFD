@@ -1,0 +1,19 @@
+@startuml packages
+set namespaceSeparator none
+package "CTF" as CTF {
+}
+package "Challenge" as Challenge {
+}
+package "Client" as Client {
+}
+package "Scoreboard" as Scoreboard {
+}
+package "Server" as Server {
+}
+package "Submission" as Submission {
+}
+package "SubmissionCreator" as SubmissionCreator {
+}
+package "User" as User {
+}
+@enduml

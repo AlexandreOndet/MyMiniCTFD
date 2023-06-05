@@ -1,0 +1,110 @@
+@startuml classes
+set namespaceSeparator none
+class "CTF" as CTF.CTF {
+  challenges : List[Challenge]
+  challenges : list
+  end
+  end : datetime
+  name
+  name : str
+  scoreboard : Scoreboard
+  scoreboard : Scoreboard
+  start
+  start : datetime
+  addChallenge(newChall: Challenge)
+  createChallenge(name: str, description: str, category: str, points: int, flag: str)
+  displayChallenges()
+  exportChallengesAsJson(filename)
+  exportChallengesAsJsonForUsers()
+  exportInfoAsJsonForUsers()
+  importChallengeFromJson(filename)
+  printCTF()
+  removeChallenge(name: str)
+}
+class "Challenge" as Challenge.Challenge {
+  category
+  category : str
+  description
+  description : str
+  flag
+  flag : str
+  name
+  name : str
+  points
+  points : int
+  checkFlag(flag)
+}
+class "DuplicatedSubmission" as Submission.DuplicatedSubmission {
+}
+class "InvalidSubmission" as Submission.InvalidSubmission {
+}
+class "Scoreboard" as Scoreboard.Scoreboard {
+  instance
+  instance : NoneType
+  solves : List[Submission]
+  solves : list
+  users : List[User]
+  users : list
+  addSolve(solve: Submission)
+  addUser(user: User)
+  exportScoreboardAsJsonForUsers()
+  exportUserToJson(filename)
+  getInstance()
+  importUserFromJson(filename)
+  printScoreboard()
+  submitFlag(flag, challenge, userId)
+  updateScoreboard()
+}
+class "Server" as Server.Server {
+  ctf : CTF
+  ctf : CTF
+  router : APIRouter
+  router : APIRouter
+  createChallenge(name, description, category, points, flag)
+  displayChallenges()
+  exportChallengesAsJson(filename)
+  getChallenges()
+  getInfo()
+  getScoreboard()
+  importChallengeFromJson(filename)
+  postChallenge(name: str, description: str, category: str, points: int, flag: str)
+  postSubmit(id: int, challenge: str, flag: str)
+  postUser(name: str)
+  printCTF()
+  printScoreboard()
+  removeChallenge(challenge)
+}
+class "Submission" as Submission.Submission {
+  challenge : Challenge
+  timestamp : datetime
+  userId : int
+}
+class "SubmissionCreator" as SubmissionCreator.SubmissionCreator {
+  create_duplicated_submission(userId, challenge, timestamp)
+  create_invalid_submission(userId, challenge, timestamp)
+  create_valid_submission(userId, challenge, timestamp)
+}
+class "User" as User.User {
+  id
+  name
+  name : str
+  score : int
+  score : int
+  submissions : List[Submission]
+  submissions : list
+  addSubmission(submission: Submission)
+  exportUserInJson(filename)
+  getName()
+  getScore()
+  getSubmission()
+  setName(name)
+  setScore(score)
+}
+class "ValidSubmission" as Submission.ValidSubmission {
+}
+Submission.DuplicatedSubmission --|> Submission.Submission
+Submission.InvalidSubmission --|> Submission.Submission
+Submission.ValidSubmission --|> Submission.Submission
+Scoreboard.Scoreboard --* Scoreboard.Scoreboard : instance
+Scoreboard.Scoreboard --o Scoreboard.Scoreboard : instance
+@enduml
