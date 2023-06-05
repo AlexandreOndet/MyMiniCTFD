@@ -14,6 +14,8 @@ def displayMenu():
     print("2 - Afficher les challenges")
     print("3 - Afficher le classement")
     print("4 - Soumettre un flag")
+    if USER == "admin":
+        print("5 - Créer un nouveau challenge")
     print("####################################")
 
 def displayCTF():
@@ -28,6 +30,9 @@ def displayScoreboard():
 def submitFlag(challenge: str, flag: str):
     return requests.post(APIURL + "submit", params={"id":ID, "challenge": challenge, "flag": flag})
 
+def createChallenge(name: str, description: str, category: str, points: int, flag: str):
+    return requests.post(APIURL + "createChallenges", params={"name":name, "description":description, "category":category, "points":points, "flag":flag})
+
 if __name__ == "__main__":
     USER = input("Quel est votre nom ? ").lower()
     page = requests.post(APIURL + "users", params={"name":USER})
@@ -38,18 +43,44 @@ if __name__ == "__main__":
     while(True):
         displayMenu()
         userInput = input("> ")
-        match int(userInput):
-            case 1:
-                printJSON(displayCTF())
-            case 2:
-                printJSON(displayChallenges())
-            case 3:
-                printJSON(displayScoreboard())
-            case 4:
-                print("---------Submit---------")
-                challenge = input("-> Saisissez le nom du challenge : ")
-                flag = input("-> Saisissez le flag : ")
-                print("------------------------")
-                printJSON(submitFlag(challenge, flag))
-            case _:
-                print("Choix non reconnu !")
+        if USER == "admin":
+            match int(userInput):
+                case 1:
+                    printJSON(displayCTF())
+                case 2:
+                    printJSON(displayChallenges())
+                case 3:
+                    printJSON(displayScoreboard())
+                case 4:
+                    print("---------Submit---------")
+                    challenge = input("-> Saisissez le nom du challenge : ")
+                    flag = input("-> Saisissez le flag : ")
+                    print("------------------------")
+                    printJSON(submitFlag(challenge, flag))
+                case _:
+                    print("Choix non reconnu !")
+        else:
+            match int(userInput):
+                case 1:
+                    printJSON(displayCTF())
+                case 2:
+                    printJSON(displayChallenges())
+                case 3:
+                    printJSON(displayScoreboard())
+                case 4:
+                    print("---------Submit Flag---------")
+                    challenge = input("-> Saisissez le nom du challenge : ")
+                    flag = input("-> Saisissez le flag : ")
+                    print("------------------------")
+                    printJSON(submitFlag(challenge, flag))
+                case 5:
+                    print("---------Submit Challenge---------")
+                    name = input("-> Saisissez le nom du challenge : ")
+                    description = input("-> Saisissez la description du challenge : ")
+                    category = input("-> Saisissez la category du challenge : ")
+                    points = input("-> Saisissez le nombre de points du challenge : ")
+                    flag = input("-> Saisissez le flag attendu du challenge: ")
+                    print("------------------------")
+                    printJSON(createChallenge(name, description, category, points, flag))
+                case _:
+                    print("Choix non reconnu !")

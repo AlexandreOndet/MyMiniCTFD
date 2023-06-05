@@ -37,6 +37,7 @@ class Server:
         self.router.add_api_route("/scoreboard", self.getScoreboard, methods=["GET"])
         self.router.add_api_route("/submit", self.postSubmit, methods=["POST"])
         self.router.add_api_route("/users", self.postUser, methods=["POST"])
+        self.router.add_api_route("/createChallenges", self.postChallenge, methods=["POST"])
 
     # API
     def getInfo(self):
@@ -76,7 +77,11 @@ class Server:
         user=User(name=name)
         self.ctf.scoreboard.addUser(user)
         return {"message" : "Utilisateur ajoutée", "id": user.id}
-         
+    
+    #API
+    def postChallenge(self, name:str, description:str, category:str, points:int, flag:str):
+        self.ctf.createChallenge(name, description, category, points, flag)
+        return {"message" : f"Challenge {name} ajoutée"}
 
     def printScoreboard(self):
         self.ctf.scoreboard.printScoreboard()
