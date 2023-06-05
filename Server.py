@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from typing import List
 from termcolor import colored
 
@@ -59,8 +59,7 @@ class Server:
                 chall = c
                 break
         if chall is None:
-            raise Exception("Challenge not found!")
-        
+            return {"warning" : "Le challenge n'existe pas"}  
         submission = self.ctf.scoreboard.submitFlag(flag, chall, id)
         if type(submission) == ValidSubmission:
             return {"message" : "Flag correct"}
