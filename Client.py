@@ -24,15 +24,24 @@ def displayMenu():
     print("####################################")
 
 
-def displayCTF():
+def getCTF():
     return requests.get(APIURL)
 
 
-def displayChallenges():
+def getChallenges():
     return requests.get(APIURL + "challenges")
 
 
-def displayScoreboard():
+def displayChallenges(challenges):
+    dict=eval(json.loads(challenges.content.decode())) # unsafe
+    for challenge in dict.values():
+        print("####################################")
+        print(f"{challenge['name']} ({challenge['category']}) : {challenge['points']} points")
+        print(f"Description : {challenge['description']}")
+
+
+
+def getScoreboard():
     return requests.get(APIURL + "scoreboard")
 
 
@@ -52,7 +61,7 @@ if __name__ == "__main__":
     ID = json.loads(page.content.decode())["id"]
     printJSON(page)
     print(f"Hello {USER} (uid = {ID}), here is the list of challenges :")
-    printJSON(displayChallenges())
+    displayChallenges(getChallenges())
     while (True):
         displayMenu()
         userInput = input("> ")
@@ -60,11 +69,11 @@ if __name__ == "__main__":
             try:
                 match int(userInput):
                     case 1:
-                        printJSON(displayCTF())
+                        printJSON(getCTF())
                     case 2:
-                        printJSON(displayChallenges())
+                        displayChallenges(getChallenges())
                     case 3:
-                        printJSON(displayScoreboard())
+                        printJSON(getScoreboard())
                     case 4:
                         print("---------Submit Flag---------")
                         challenge = input("-> Write the challenge name : ")
@@ -88,11 +97,11 @@ if __name__ == "__main__":
             try:
                 match int(userInput):
                     case 1:
-                        printJSON(displayCTF())
+                        printJSON(getCTF())
                     case 2:
-                        printJSON(displayChallenges())
+                        displayChallenges(getChallenges())
                     case 3:
-                        printJSON(displayScoreboard())
+                        printJSON(getScoreboard())
                     case 4:
                         print("---------Submit Flag---------")
                         challenge = input("-> Write the challenge name : ")

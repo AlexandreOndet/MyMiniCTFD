@@ -43,7 +43,16 @@ class CTF:
             json.dump([challenge.__dict__ for challenge in self.challenges], outfile)
 
     def exportChallengesAsJsonForUsers(self):
-        return json.dumps([challenge.__dict__ for challenge in self.challenges])
+        challengesWithoutFlag = {}
+        for challenge in self.challenges:
+            challengesWithoutFlag[challenge.name] = {
+                "name": challenge.name,
+                "description": challenge.description,
+                "category": challenge.category,
+                "points": challenge.points
+            }
+        return json.dumps(challengesWithoutFlag)
+
 
     def importChallengeFromJson(self, filename):
         with open("data/" + filename) as json_file:
