@@ -37,7 +37,7 @@ class Scoreboard:
             user.submissions.append(s)
             return s
         for submission in user.submissions:
-            if (submission.challenge == challenge) and (submission.challenge.checkFlag(flag)):
+            if ((submission.challenge == challenge) and (submission.challenge.checkFlag(flag))):
                 s = SubmissionCreator.create_duplicated_submission(userId, challenge)
                 user.submissions.append(s)
                 return s
