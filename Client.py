@@ -39,7 +39,7 @@ def getChallenges():
 
 
 def displayChallenges(challenges):
-    dict=literal_eval(json.loads(challenges.content.decode())) # unsafe
+    dict=literal_eval(json.loads(challenges.content.decode()))
     for challenge in dict.values():
         print("####################################")
         print(f"{challenge['name']} ({challenge['category']}) : {challenge['points']} points")
