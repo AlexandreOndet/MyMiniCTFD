@@ -1,5 +1,6 @@
 import requests
 import json
+from ast import literal_eval
 
 APIURL = "http://localhost:8000/"
 USER = ""
@@ -27,13 +28,18 @@ def displayMenu():
 def getCTF():
     return requests.get(APIURL)
 
+def displayCTF(ctf):
+    print("####################################")
+    dict = json.loads(ctf.content.decode())
+    print(dict)
+
 
 def getChallenges():
     return requests.get(APIURL + "challenges")
 
 
 def displayChallenges(challenges):
-    dict=eval(json.loads(challenges.content.decode())) # unsafe
+    dict=literal_eval(json.loads(challenges.content.decode())) # unsafe
     for challenge in dict.values():
         print("####################################")
         print(f"{challenge['name']} ({challenge['category']}) : {challenge['points']} points")
@@ -46,7 +52,8 @@ def getScoreboard():
 
 
 def displayScoreboard(scoreboard):
-    scoreboard_array=eval(json.loads(scoreboard.content.decode()))
+    scoreboard_array=literal_eval(json.loads(scoreboard.content.decode()))
+    print("####################################")
     for rank in scoreboard_array:
         print(f"{rank['rank']} - {rank['name']} : {rank['score']} points")
 
@@ -75,7 +82,7 @@ if __name__ == "__main__":
             try:
                 match int(userInput):
                     case 1:
-                        printJSON(getCTF())
+                        displayCTF(getCTF())
                     case 2:
                         displayChallenges(getChallenges())
                     case 3:
@@ -103,7 +110,7 @@ if __name__ == "__main__":
             try:
                 match int(userInput):
                     case 1:
-                        printJSON(getCTF())
+                        displayCTF(getCTF())
                     case 2:
                         displayChallenges(getChallenges())
                     case 3:
