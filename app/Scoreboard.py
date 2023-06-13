@@ -35,12 +35,12 @@ class Scoreboard:
         if not challenge.checkFlag(flag):
             s = SubmissionCreator.create_invalid_submission(userId, challenge)
             user.submissions.append(s)
-            return
+            return s
         for submission in user.submissions:
             if (submission.challenge == challenge) and (submission.challenge.checkFlag(flag)):
                 s = SubmissionCreator.create_duplicated_submission(userId, challenge)
                 user.submissions.append(s)
-                return
+                return s
         s = SubmissionCreator.create_valid_submission(userId, challenge)
         self.addSolve(s)
         user.submissions.append(s)
