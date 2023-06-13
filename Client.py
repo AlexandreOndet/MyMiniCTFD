@@ -45,6 +45,12 @@ def getScoreboard():
     return requests.get(APIURL + "scoreboard")
 
 
+def displayScoreboard(scoreboard):
+    scoreboard_array=eval(json.loads(scoreboard.content.decode()))
+    for rank in scoreboard_array:
+        print(f"{rank['rank']} - {rank['name']} : {rank['score']} points")
+
+
 def submitFlag(challenge: str, flag: str):
     return requests.post(APIURL + "submit", params={"id": ID, "challenge": challenge, "flag": flag})
 
@@ -73,7 +79,7 @@ if __name__ == "__main__":
                     case 2:
                         displayChallenges(getChallenges())
                     case 3:
-                        printJSON(getScoreboard())
+                        displayScoreboard(getScoreboard())
                     case 4:
                         print("---------Submit Flag---------")
                         challenge = input("-> Write the challenge name : ")
@@ -101,7 +107,7 @@ if __name__ == "__main__":
                     case 2:
                         displayChallenges(getChallenges())
                     case 3:
-                        printJSON(getScoreboard())
+                        displayScoreboard(getScoreboard())
                     case 4:
                         print("---------Submit Flag---------")
                         challenge = input("-> Write the challenge name : ")
